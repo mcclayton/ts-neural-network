@@ -8,7 +8,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "lint:fix": "npm run lint:check -- --fix",
-    "lint:check": "eslint --ext .tsx,.ts ./src -c .eslintrc.js",
+    "lint:check": "eslint --ext .tsx,.ts ./src -c .eslintrc.json",
     "format:fix": "prettier --write \"src/**/*.(ts|tsx)\"",
     "format:check": "prettier --check \"src/**/*.(ts|tsx)\"",
     "preview": "vite preview"
@@ -59,7 +59,7 @@
   "lint-staged": {
     "*.{tsx,ts}": [
       "prettier --write",
-      "eslint --cache --fix --report-unused-disable-directives -c .eslintrc.strict.js"
+      "eslint --cache --fix --report-unused-disable-directives -c .eslintrc.json"
     ],
     "*.svg": [
       "prettier --write --parser xml"

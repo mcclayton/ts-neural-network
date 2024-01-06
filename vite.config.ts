@@ -1,12 +1,10 @@
-import react from '@vitejs/plugin-react-swc'
-
 import { vanillaExtractPlugin } from '@vanilla-extract/vite-plugin';
+import react from '@vitejs/plugin-react-swc';
 import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import checker from 'vite-plugin-checker';
 import svgr from 'vite-plugin-svgr';
 import tsconfigPaths from 'vite-tsconfig-paths';
-
 
 const PORT = 3000;
 
@@ -74,7 +72,7 @@ export default defineConfig((env) => {
             initialIsOpen: process.env.VITE_DEV_SERVER_OVERLAY === 'true',
           },
           eslint: {
-            lintCommand: 'eslint "./src/**/*.{ts,tsx}" -c .eslintrc.js',
+            lintCommand: 'eslint "./src/**/*.{ts,tsx}" -c .eslintrc.json',
           },
           typescript: true,
         }),
