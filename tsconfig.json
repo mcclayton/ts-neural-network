@@ -8,11 +8,7 @@
       // https://github.com/microsoft/TypeScript/issues/54629#issuecomment-1677918741
       "./node_modules"
     ],
-    "types": [
-      "node",
-      "vite/client",
-      "vite-plugin-svgr/client",
-    ],
+    "types": ["node", "vite/client", "vite-plugin-svgr/client"],
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -32,8 +28,5 @@
     "sourceRoot": "src",
     "noErrorTruncation": true
   },
-  "include": [
-    "src",
-    "vite.config.ts",
-  ]
+  "include": ["src", "vite.config.ts"]
 }
