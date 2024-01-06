@@ -5,7 +5,7 @@
   "printWidth": 80,
   "importOrder": [
     "<THIRD_PARTY_MODULES>",
-    "^(shared|assets)(/(.*))?$",
+    "^(shared|assets|components)(/(.*))?$",
     "^[./]"
   ],
   "importOrderSeparation": true,
