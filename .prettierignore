@@ -1,0 +1,7 @@
+# ignore generated code
+src/shared/generated
+
+# ignore handlebars templates
+*.hbs
+
+dependencies/**/*
