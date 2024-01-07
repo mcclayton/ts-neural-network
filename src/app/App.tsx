@@ -6,6 +6,7 @@ import { useInterval } from 'usehooks-ts';
 
 import { Grid } from './Grid/Grid';
 import { Controller } from './classes/Controller';
+import { LineOfSightSensor } from './classes/LineOfSightSensor';
 import { NeuralNetwork } from './classes/ai/NeuralNetwork';
 
 export function App() {
@@ -20,7 +21,12 @@ export function App() {
   useInterval(() => {
     if (!paused) {
       const { player } = controller;
-      const { forward, right, backward, left } = controller.getSensorValues();
+      const { forward, right, backward, left } =
+        LineOfSightSensor.getSensorValues(
+          player.position.x,
+          player.position.y,
+          controller,
+        );
       const actions = NeuralNetwork.feedForward(
         [forward, right, backward, left],
         player.brain,
@@ -61,10 +67,7 @@ export function App() {
       <div>{`Saved 🧠 Best: ${
         localStorage.getItem('bestScore') || 'N/A'
       }`}</div>
-      <div style={{ display: 'flex' }}>
-        <Grid key={renderCyle} data={controller.board.data} />
-        {/* TODO: Visualize the neural network (weights, biases, inputs, and outputs) */}
-      </div>
+      <Grid key={renderCyle} controller={controller} />
       <div>
         <button type="button" onClick={() => setPaused(!paused)}>
           {paused ? 'Start' : 'Pause'}

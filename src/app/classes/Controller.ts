@@ -86,56 +86,6 @@ export class Controller {
     }
   }
 
-  // TODO: Clean up sensor, perhaps by making a sensor class?
-  // probably should move this sensing to the player object
-  getSensorValues() {
-    const { x: playerX, y: playerY } = this.player.position;
-    const forwardSensor = [
-      { x: playerX, y: playerY - 1 },
-      { x: playerX, y: playerY - 2 },
-      { x: playerX, y: playerY - 3 },
-      { x: playerX, y: playerY - 4 },
-      { x: playerX, y: playerY - 5 },
-    ];
-    const rightSensor = [
-      { x: playerX + 1, y: playerY },
-      { x: playerX + 2, y: playerY },
-      { x: playerX + 3, y: playerY },
-    ];
-    const backwardSensor = [
-      { x: playerX, y: playerY + 1 },
-      { x: playerX, y: playerY + 2 },
-      { x: playerX, y: playerY + 3 },
-    ];
-    const leftSensor = [
-      { x: playerX - 1, y: playerY },
-      { x: playerX - 2, y: playerY },
-      { x: playerX - 3, y: playerY },
-    ];
-
-    function getSensorValue(
-      sensor: { x: number; y: number }[],
-      controller: Controller,
-    ) {
-      for (let i = 0; i < sensor.length; i++) {
-        const { x, y } = sensor[i];
-        if (controller.isCollisionAt(x, y)) {
-          // The closer we detect a collision, the closer the value should be to 1
-          return 1 - i * (1 / sensor.length);
-        }
-      }
-      // If we don't see any collisions, the sensor returns 0
-      return 0;
-    }
-
-    return {
-      forward: getSensorValue(forwardSensor, this),
-      right: getSensorValue(rightSensor, this),
-      backward: getSensorValue(backwardSensor, this),
-      left: getSensorValue(leftSensor, this),
-    };
-  }
-
   get score() {
     // TODO: Punish AI for staying in same spot for a move ?
 
@@ -152,7 +102,7 @@ export class Controller {
     );
   }
 
-  private isCollisionAt(x: number, y: number) {
+  isCollisionAt(x: number, y: number) {
     if (x > this.board.rows - 1 || x < 0) {
       return 'BOUNDARY';
     }
