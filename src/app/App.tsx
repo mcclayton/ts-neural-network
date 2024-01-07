@@ -1,5 +1,6 @@
 /* eslint-disable no-case-declarations */
-import 'app/App.css';
+import { container } from 'app/App.css';
+import 'app/root.css';
 import { useRef, useState } from 'react';
 import { useInterval } from 'usehooks-ts';
 
@@ -53,9 +54,7 @@ export function App() {
   }, 1000);
 
   return (
-    <div
-      style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-    >
+    <div className={container}>
       🏁 FINISH LINE 🏁
       <div>{`SCORE: ${controller.score.toFixed(1)}`}</div>
       <div>{`Current Session Best: ${best.score}`}</div>
