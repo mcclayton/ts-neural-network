@@ -1,6 +1,7 @@
 import { Board } from './Board';
 import { Enemy } from './Enemy';
 import { Player } from './Player';
+import { NeuralNetwork } from './ai/NeuralNetwork';
 
 const BOARD_ROWS = 11;
 const BOARD_COLS = 15;
@@ -23,6 +24,17 @@ export class Controller {
 
     this.enemies = [
       new Enemy(Math.floor((BOARD_ROWS - 1) / 2), (BOARD_COLS - 1) / 2),
+      new Enemy(0, 0),
+      new Enemy(2, 2),
+      new Enemy(4, 4),
+      new Enemy(6, 6),
+      new Enemy(8, 8),
+      new Enemy(2, 9),
+      new Enemy(1, 11),
+      new Enemy(4, 9),
+      new Enemy(9, 10),
+      new Enemy(6, 12),
+      new Enemy(9, 13),
     ];
 
     this.board = new Board(
@@ -32,12 +44,27 @@ export class Controller {
     );
   }
 
-  reset() {
+  reset(brain?: NeuralNetwork) {
     this.turnsRemaining = this.turnLimit;
-    this.player = new Player(Math.floor((BOARD_ROWS - 1) / 2), BOARD_COLS - 1);
+    this.player = new Player(
+      Math.floor((BOARD_ROWS - 1) / 2),
+      BOARD_COLS - 1,
+      brain,
+    );
 
     this.enemies = [
       new Enemy(Math.floor((BOARD_ROWS - 1) / 2), (BOARD_COLS - 1) / 2),
+      new Enemy(0, 0),
+      new Enemy(2, 2),
+      new Enemy(4, 4),
+      new Enemy(6, 6),
+      new Enemy(8, 8),
+      new Enemy(2, 9),
+      new Enemy(1, 11),
+      new Enemy(4, 9),
+      new Enemy(9, 10),
+      new Enemy(6, 12),
+      new Enemy(9, 13),
     ];
 
     this.board = new Board(
@@ -47,17 +74,15 @@ export class Controller {
     );
   }
 
-  tick(cb: () => void) {
+  tick(cb: () => void, onFinish?: () => void) {
     this.turnsRemaining -= 1;
     cb();
     if (
       this.isCollisionAt(this.player.position.x, this.player.position.y) ||
-      this.score <= 0
+      this.score <= 0 ||
+      this.turnsRemaining <= 0
     ) {
-      // TODO: Save state of neural network if score is greater than last saved
-      // eslint-disable-next-line no-alert
-      alert('Game over, resetting...');
-      this.reset();
+      onFinish?.();
     }
   }
 
@@ -112,6 +137,8 @@ export class Controller {
   }
 
   get score() {
+    // TODO: Punish AI for staying in same spot for a move ?
+
     // Score is 80% weighted based on distance to finish
     // Score is 20% weighted based on number of moves taken
     const DISTANCE_SCORE_WEIGHT = 0.8;

@@ -24,10 +24,6 @@ export class Board {
     return this.grid.length;
   }
 
-  // tick() {
-  //   this.checkCollisions();
-  // }
-
   get data() {
     const newGrid = cloneDeep(this.grid);
     this.characters.forEach((c) => {

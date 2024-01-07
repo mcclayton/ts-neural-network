@@ -1,4 +1,9 @@
+/* eslint-disable no-param-reassign */
 import { Level } from './Level';
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
 
 export class NeuralNetwork {
   levels: Level[];
@@ -18,5 +23,25 @@ export class NeuralNetwork {
       outputs = Level.feedForward(outputs, network.levels[i]);
     }
     return outputs;
+  }
+
+  // Amount 1 = 100%
+  static mutate(network: NeuralNetwork, amount = 1) {
+    network.levels.forEach((level) => {
+      for (let i = 0; i < level.biases.length; i++) {
+        level.biases[i] = lerp(level.biases[0], Math.random() * 2 - 1, amount);
+      }
+
+      for (let i = 0; i < level.weights.length; i++) {
+        for (let j = 0; j < level.weights[i].length; j++) {
+          level.weights[i][j] = lerp(
+            level.weights[i][j],
+            Math.random() * 2 - 1,
+            amount,
+          );
+        }
+      }
+    });
+    return network;
   }
 }

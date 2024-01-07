@@ -9,13 +9,17 @@ const NUM_OF_ACTION_OUTPUTS = 4;
 export class Player extends Character {
   brain: NeuralNetwork;
 
-  constructor(x = 0, y = 0) {
+  constructor(x = 0, y = 0, brain?: NeuralNetwork) {
     super(PLAYER_CHAR, x, y);
     // Using a hidden layer of 6 neurons in between inputs and outputs
-    this.brain = new NeuralNetwork([
-      NUM_OF_INPUT_SENSORS,
-      6,
-      NUM_OF_ACTION_OUTPUTS,
-    ]);
+    if (!brain) {
+      this.brain = new NeuralNetwork([
+        NUM_OF_INPUT_SENSORS,
+        6,
+        NUM_OF_ACTION_OUTPUTS,
+      ]);
+    } else {
+      this.brain = brain;
+    }
   }
 }
