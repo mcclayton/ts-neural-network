@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 
-import { type Character } from './Character';
+import { Character } from './Character';
 
 const EMPTY_VALUE = '';
 

@@ -1,32 +1,53 @@
+/* eslint-disable no-case-declarations */
 import 'app/App.css';
 import { useEffect, useRef, useState } from 'react';
 
 import { Grid } from './Grid/Grid';
 import { Controller } from './classes/Controller';
+import { NeuralNetwork } from './classes/ai/NeuralNetwork';
 
 export function App() {
   const [renderCyle, setRenderCycle] = useState(0);
   const { current: controller } = useRef(new Controller());
 
   const handleKeyUp = (event: KeyboardEvent) => {
+    const { player } = controller;
     switch (event.key) {
       case 'ArrowUp':
-        controller.player.up();
+        player.up();
         controller.tick(() => setRenderCycle(renderCyle + 1));
         break;
       case 'ArrowDown':
-        controller.player.down();
+        player.down();
         controller.tick(() => setRenderCycle(renderCyle + 1));
         break;
       case 'ArrowRight':
-        controller.player.right();
+        player.right();
         controller.tick(() => setRenderCycle(renderCyle + 1));
         break;
       case 'ArrowLeft':
-        controller.player.left();
+        player.left();
         controller.tick(() => setRenderCycle(renderCyle + 1));
         break;
       default:
+        const { forward, right, backward, left } = controller.getSensorValues();
+        const actions = NeuralNetwork.feedForward(
+          [forward, right, backward, left],
+          player.brain,
+        );
+        if (actions[0]) {
+          player.up();
+        }
+        if (actions[1]) {
+          player.right();
+        }
+        if (actions[2]) {
+          player.down();
+        }
+        if (actions[3]) {
+          player.left();
+        }
+        controller.tick(() => setRenderCycle(renderCyle + 1));
         break;
     }
   };
@@ -45,7 +66,10 @@ export function App() {
     <div>
       🏁 FINISH LINE 🏁
       <div>{`SCORE: ${controller.score.toFixed(1)}`}</div>
-      <Grid key={renderCyle} data={controller.board.data} />
+      <div style={{ display: 'flex' }}>
+        <Grid key={renderCyle} data={controller.board.data} />
+        {/* TODO: Visualize the neural network (weights, biases, inputs, and outputs) */}
+      </div>
     </div>
   );
 }

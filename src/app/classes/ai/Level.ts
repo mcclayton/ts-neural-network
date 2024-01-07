@@ -8,6 +8,8 @@ export class Level {
 
   weights: number[][];
 
+  // TODO: Maybe create a neuron class that connects an input with an output and weights the edge
+
   constructor(numOfInputs: number, numOfOutputs: number) {
     this.inputs = new Array(numOfInputs);
     this.outputs = new Array(numOfOutputs);
@@ -15,9 +17,11 @@ export class Level {
 
     this.weights = [];
     // Initialize weights for every input to map to every output
-    this.inputs.forEach((_, idx) => {
-      this.weights[idx] = new Array(this.outputs.length);
-    });
+    for (let i = 0; i < numOfInputs; i++) {
+      this.weights[i] = new Array(numOfOutputs);
+    }
+
+    Level.randomize(this);
   }
 
   // Get random weights and biases
@@ -32,7 +36,7 @@ export class Level {
     }
 
     for (let i = 0; i < level.biases.length; i++) {
-      // Assigns a random weight value between -1 and 1
+      // Assigns a bias value between -1 and 1
       // for an input/output pair (i.e. "Connection")
       level.biases[i] = Math.random() * 2 - 1;
     }
